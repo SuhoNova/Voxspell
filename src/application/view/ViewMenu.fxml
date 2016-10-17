@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerMenu">
+   <children>
+      <SplitPane dividerPositions="0.304177545691906" layoutX="352.0" layoutY="38.0" orientation="VERTICAL" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Label layoutX="316.0" layoutY="66.0" text="Voxspell">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Label>
+                  <CheckBox fx:id="_btnBGM" layoutX="770.0" layoutY="25.0" mnemonicParsing="false" onAction="#backgroundMusic" text="Background Music">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </CheckBox>
+                  <Label layoutX="804.0" layoutY="197.0" text="Produced by: syu680">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="850.0" layoutY="88.0" text="BGM Volume">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Slider fx:id="_volumeSlider" blockIncrement="0.1" layoutX="983.0" layoutY="31.0" max="1.0" onDragDetected="#setBGMVolume" onDragDone="#setBGMVolume" onDragDropped="#setBGMVolume" onDragEntered="#setBGMVolume" onDragExited="#setBGMVolume" onDragOver="#setBGMVolume" orientation="VERTICAL" value="0.5" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="440.0" prefWidth="1022.0">
+               <children>
+                  <Button fx:id="_btnExit" layoutX="333.0" layoutY="394.0" mnemonicParsing="false" onAction="#exitApp" prefHeight="102.0" prefWidth="367.0" text="EXIT">
+                     <font>
+                        <Font size="47.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="_btnSetting" layoutX="333.0" layoutY="277.0" mnemonicParsing="false" onAction="#settings" prefHeight="102.0" prefWidth="367.0" text="SETTINGS">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="_btnStart" layoutX="332.0" layoutY="38.0" mnemonicParsing="false" onAction="#startApp" prefHeight="102.0" prefWidth="367.0" text="START">
+                     <font>
+                        <Font size="47.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="_btnScore" layoutX="333.0" layoutY="155.0" mnemonicParsing="false" onAction="#score" prefHeight="102.0" prefWidth="367.0" text="SCORE">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="_btnReview" layoutX="118.0" layoutY="103.0" mnemonicParsing="false" onAction="#review" prefHeight="50.0" prefWidth="104.0" text="review" />
+                  <Button fx:id="_btnStatistics" layoutX="118.0" layoutY="217.0" mnemonicParsing="false" onAction="#statistics" prefHeight="76.0" prefWidth="90.0" text="stats" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

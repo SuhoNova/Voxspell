@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerSpelling">
+   <children>
+      <SplitPane dividerPositions="0.34464751958224543" layoutX="106.0" layoutY="126.0" orientation="VERTICAL" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <SplitPane dividerPositions="0.3125" layoutX="274.0" layoutY="5.0" orientation="VERTICAL" prefHeight="210.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <Label layoutX="18.0" layoutY="17.0" text="Voxspell">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="_accuracy" layoutX="762.0" layoutY="16.0" prefHeight="49.0" prefWidth="204.0" text="Score: 100 %">
+                                 <font>
+                                    <Font size="29.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="_categoryName" layoutX="223.0" layoutY="20.0" prefHeight="42.0" prefWidth="455.0" text="Category:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <Label layoutX="89.0" layoutY="51.0" text="Spell the word ...">
+                                 <font>
+                                    <Font size="58.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="_listenAgain" layoutX="652.0" layoutY="45.0" mnemonicParsing="false" onAction="#listenAgain" prefHeight="77.0" prefWidth="266.0" text="Listen Again">
+                                 <font>
+                                    <Font size="35.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="504.0" prefWidth="1022.0">
+               <children>
+                  <TextField fx:id="_userReply" layoutX="86.0" layoutY="114.0" prefHeight="121.0" prefWidth="617.0" promptText="Enter Here...">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="_enter" layoutX="703.0" layoutY="114.0" mnemonicParsing="false" onAction="#enter" onKeyPressed="#enter" prefHeight="121.0" prefWidth="169.0" text="Enter">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="_quit" layoutX="440.0" layoutY="364.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="28.0" prefWidth="266.0" text="Back to Menu">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="_order" layoutX="88.0" layoutY="373.0" prefHeight="43.0" prefWidth="438.0" text="0 of 10 words">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="_labelCorrect" layoutX="87.0" layoutY="311.0" prefHeight="43.0" prefWidth="438.0" text="0 words correct">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

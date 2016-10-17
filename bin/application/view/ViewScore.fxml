@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerScore">
+   <children>
+      <SplitPane dividerPositions="0.2297650130548303" layoutX="425.0" layoutY="130.0" orientation="VERTICAL" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Label layoutX="357.0" layoutY="34.0" text="Score">
+                     <font>
+                        <Font size="96.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Label layoutX="201.0" layoutY="76.0" text="Category:">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="_categoryChoice" layoutX="436.0" layoutY="78.0" prefHeight="39.0" prefWidth="376.0" />
+                  <Label layoutX="357.0" layoutY="190.0" text="My Score">
+                     <font>
+                        <Font size="60.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="_score" layoutX="441.0" layoutY="310.0" prefHeight="75.0" prefWidth="208.0" text="100%">
+                     <font>
+                        <Font size="64.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="_back" layoutX="441.0" layoutY="461.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="55.0" prefWidth="208.0" text="Back">
+                     <font>
+                        <Font size="29.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

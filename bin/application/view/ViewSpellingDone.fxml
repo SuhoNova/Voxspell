@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerSpellingDone">
+   <children>
+      <SplitPane dividerPositions="0.37597911227154046" layoutX="255.0" layoutY="132.0" orientation="VERTICAL" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <SplitPane dividerPositions="0.2872340425531915" layoutX="351.0" orientation="VERTICAL" prefHeight="217.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <Label layoutX="24.0" layoutY="15.0" text="Voxspell">
+                                 <font>
+                                    <Font size="41.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                           <children>
+                              <Label layoutX="292.0" layoutY="51.0" text="Well Done!">
+                                 <font>
+                                    <Font size="69.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="1022.0">
+               <children>
+                  <Label fx:id="_accuracyLabel" layoutX="337.0" layoutY="31.0" prefHeight="55.0" prefWidth="320.0" text="Score: 100%">
+                     <font>
+                        <Font size="46.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="_menu" layoutX="148.0" layoutY="130.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="93.0" prefWidth="320.0" text="Menu">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="_nextCategory" layoutX="142.0" layoutY="263.0" mnemonicParsing="false" onAction="#nextCategory" prefHeight="83.0" prefWidth="328.0" text="Next Category">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="_video" layoutX="526.0" layoutY="262.0" mnemonicParsing="false" onAction="#videoReward" prefHeight="83.0" prefWidth="347.0" text="Video Reward">
+                     <font>
+                        <Font size="41.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="_again" layoutX="532.0" layoutY="126.0" mnemonicParsing="false" onAction="#spellingAgain" prefHeight="93.0" prefWidth="341.0" text="Again!">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
