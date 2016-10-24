@@ -7,7 +7,6 @@ import application.VoxspellMain;
 import application.VoxspellModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +15,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * This class deals with the situation after the spelling is done
+ * If the user has more or equal to one less than the total word list tested,
+ * the user is given the video reward option
+ * and the option to go to next category
+ * 
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 public class ControllerSpellingDone {
 	@FXML private Button _menu;
 	@FXML private Button _again;
@@ -36,6 +44,9 @@ public class ControllerSpellingDone {
 		stage.setScene(scene);
 		stage.show();
 	}
+	/**
+	 * Option to do the spelling test of the same category again
+	 */
 	@FXML
 	private void spellingAgain(){
 		FXMLLoader loader = new FXMLLoader();
@@ -58,6 +69,9 @@ public class ControllerSpellingDone {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Option to go to next category
+	 */
 	@FXML
 	private void nextCategory(){
 		int index = _categoryList.indexOf(_model.getCategory());
@@ -69,6 +83,9 @@ public class ControllerSpellingDone {
 		_model.setCategory(_category);
 		spellingAgain();
 	}
+	/**
+	 * Option for video reward, only unlocked when one less or equal to words tested
+	 */
 	@FXML
 	private void videoReward(){
 		FXMLLoader loader = new FXMLLoader();

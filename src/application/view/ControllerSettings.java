@@ -1,19 +1,15 @@
 package application.view;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
-
 import application.VoxspellMain;
 import application.VoxspellModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -23,6 +19,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+/**
+ * This class deals with the settings
+ * It handles changing voices, category, and word list
+ * The changes are sent to VoxspellModel where it is then dealt with
+ * Word list erases the statistics so it double checks with user to make sure they are fine with it
+ * 
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 
 public class ControllerSettings {
 	@FXML private ChoiceBox _voiceChoice; 
@@ -43,8 +49,9 @@ public class ControllerSettings {
 	private Path _pathWordList;
 
 	private FileChooser _fChooser;
-
-
+	/**
+	 * Get and put the data in wanted format
+	 */
 	@FXML
 	private void initialize(){
 		_arrayVoiceList = new ArrayList<String>(_model.getVoiceList());
@@ -69,6 +76,10 @@ public class ControllerSettings {
 		String category = (String) _category.getValue();
 		_model.setCategory(category);
 	}
+	/**
+	 * Checks if word list is in correct format that we can use
+	 * And double check with user if they are fine with stats getting cleared
+	 */
 	@FXML
 	private void changeWordList(){
 		File file = _fChooser.showOpenDialog((Stage) _back.getScene().getWindow());
@@ -109,6 +120,9 @@ public class ControllerSettings {
 			}
 		}
 	}
+	/**
+	 * Give user option to go back to original word list
+	 */
 	@FXML
 	private void defaultWordList(){
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -137,6 +151,10 @@ public class ControllerSettings {
 			alert.showAndWait();
 		}
 	}
+	/**
+	 * Method to check if the file has the txt extension
+	 * 
+	 */
 	private boolean checkWordListFile(Path path){
 		String fileName = path.getFileName().toString();
 		if(!fileName.endsWith(".txt")){

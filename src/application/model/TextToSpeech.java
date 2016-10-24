@@ -1,15 +1,20 @@
 package application.model;
 
-import java.util.ArrayList;
-
 import application.view.ControllerSpelling;
-import javafx.beans.property.StringProperty;
+
+/**
+ * This class handles text to speech data
+ * It then sends it off to festival swing worker
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 
 public class TextToSpeech{
 	private String _voice;
 	private ControllerSpelling _spelling;
 	private boolean _isSpelling = false;
 	
+	// Default voice is american
 	public TextToSpeech(){
 		changeVoice("american");
 	}
@@ -21,12 +26,18 @@ public class TextToSpeech{
 		_spelling = spelling;
 		_isSpelling = true;
 	}
+	/**
+	 * This method enables the buttons that were disabled during text to speech
+	 */
 	public void enableSpellingButtons(){
 		if(_isSpelling){
 			_spelling.enableButtons();
 		}
 	}
-	
+	/**
+	 * Sends the sentence to swing worker which processes it
+	 * @param sentence
+	 */
 	public void Speak(String sentence){
 		TextToSpeechWork ttsWork = new TextToSpeechWork(_voice,sentence, this);
 		try {
@@ -35,7 +46,10 @@ public class TextToSpeech{
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Changes the voice to a format festival understands
+	 * @param voice
+	 */
 	public void changeVoice(String voice){
 		if(voice.equalsIgnoreCase("american")){
 			_voice = "kal_diphone";

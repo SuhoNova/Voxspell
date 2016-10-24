@@ -2,6 +2,12 @@ package application.model;
 
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * This class stores data of a word that the user mastered/failed
+ * In the format that can be used in treeview 
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 public class WordMastery {
 	private SimpleStringProperty words;
 	private SimpleStringProperty mastery;

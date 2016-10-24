@@ -1,6 +1,5 @@
 package application.view;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
@@ -12,8 +11,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -25,6 +22,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
+/**
+ * This class displays the score to the user
+ * Has tableview, and accuracy
+ * And the ability to clear statistics 
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 
 public class ControllerScore {
 	@FXML private Button _back;
@@ -46,6 +51,9 @@ public class ControllerScore {
 	@FXML private TableColumn<WordMastery, String> _words;
 	@FXML private TableColumn<WordMastery, String> _mastery;
 	
+	/**
+	 * User can change category to see what data they want to see
+	 */
 	@FXML
 	private void categoryChanged(){
 		_category = (String) _categoryChoice.getValue();
@@ -70,6 +78,9 @@ public class ControllerScore {
 		});
 		this.setTable();
 	}
+	/**
+	 * Putting the data into a format that tableview can use
+	 */
 	@FXML
 	private void setTable(){
 		_data = FXCollections.observableArrayList();
@@ -85,6 +96,9 @@ public class ControllerScore {
 		_mastery.setCellValueFactory(new PropertyValueFactory<WordMastery, String>("mastery"));
 		_table.setItems(_data);
 	}
+	/**
+	 * Double check with the user before clearing data
+	 */
 	@FXML
 	private void clearStatistics(){
 		Alert alert = new Alert(AlertType.CONFIRMATION);

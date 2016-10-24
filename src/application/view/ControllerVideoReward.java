@@ -1,10 +1,8 @@
 package application.view;
 
-import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.rmi.server.SocketSecurityException;
 import java.util.ResourceBundle;
 
 import application.VoxspellMain;
@@ -22,6 +20,16 @@ import javafx.scene.media.MediaView;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.stage.Stage;
 
+/**
+ * This class makes a scene to put mediaplayer in.
+ * The mediaplayer plays the video
+ * The user has the option to watch it slowmotion, or fast motion
+ * or normal motion. The user can also pause or play the video.
+ * The user can also quit mid way back to menu
+ * 
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 public class ControllerVideoReward implements Initializable{
 	@FXML private  MediaView _mediaView;
 	private MediaPlayer _mediaPlayer;
@@ -42,7 +50,6 @@ public class ControllerVideoReward implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		_ffmpegVideo.setDisable(true);
-		//_media = new Media(this.getClass().getResource(source).toExternalForm());
 		_path = Paths.get(System.getProperty("user.dir") + "/assets/big_buck_bunny_1_minute.mp4");
 		_source = "file:///" + _path.toString();
 		_media = new Media(_source);
@@ -63,6 +70,9 @@ public class ControllerVideoReward implements Initializable{
 		stage.setScene(scene);
 	    stage.show();
 	}
+	/**
+	 * Plays/pause the video and changes the speed of video back to normal 
+	 */
 	public void play(){
 		if(_mediaPlayer.getStatus().equals(Status.PLAYING)){
 			_mediaPlayer.pause();
@@ -73,6 +83,9 @@ public class ControllerVideoReward implements Initializable{
 		}
 		_mediaPlayer.setRate(1);
 	}
+	/**
+	 * ffmpeg video reward 
+	 */
 	public void ffmpegVideoReward(){
 		_play.setDisable(true);
 		_fast.setDisable(true);
@@ -100,9 +113,15 @@ public class ControllerVideoReward implements Initializable{
 		_play.setText("Pause");
 		
 	}
+	/**
+	 * Changes video into fast motion
+	 */
 	public void fast(){
 		_mediaPlayer.setRate(2);
 	}
+	/**
+	 * Changes video into slow motion
+	 */
 	public void slow(){
 		_mediaPlayer.setRate(0.5);
 	}

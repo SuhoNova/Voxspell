@@ -7,6 +7,13 @@ import java.util.HashMap;
 import application.model.BackgroundMusic;
 import application.model.FileManager;
 
+/**
+ * This is the main model of the Voxspell program.
+ * It tells other models what to do, and communicates with views and controllers.
+ * 
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 
 public class VoxspellModel {
 	private FileManager _fm;
@@ -46,7 +53,10 @@ public class VoxspellModel {
 		
 		_wordFile = getWordListPath();
 	}
-	
+	/**
+	 * Setting and getting category
+	 * When category is set, the info of the current category is updated using setWordListAndCategory method
+	 */
 	public String getCategory(){
 		return _category;
 	}
@@ -57,11 +67,8 @@ public class VoxspellModel {
 	public void setWordListAndCategory(){
 		_fm.setWordListAndCategory();
 	}
-	public void setVoice(String voice){
-		_voice = voice;
-	}
 	/**
-	 * Total Accuracy
+	 *  Setting and getting accuracy of a category: total, tested, personal best, calculation
 	 */
 	public int getTotalWordsTested(String category){
 		return _fm.getCategoryTotalTested(category);
@@ -86,27 +93,40 @@ public class VoxspellModel {
 		return (int)value;
 	}
 	
-	
 	public void clearData(){
 		_fm.clearData();
 	}
 	public String getVoice(){
 		return _voice;
 	}
+	public void setVoice(String voice){
+		_voice = voice;
+	}
+	/**
+	 * Gets data such as category list, voice list
+	 * 
+	 */
 	public ArrayList<String> getCategoryList(){
 		return _fm.getCategoryList();
 	}
 	public ArrayList<String> getVoiceList(){
 		return _fm.getVoiceList();
 	}
+	/**
+	 * This method checks if the user input word list is in usable format 
+	 */
 	public boolean checkCorrectWordListFile(Path p){
 		return _fm.checkCorrectWordListFile(p);
 	}
+	/**
+	 * Option to go back to original word list
+	 * 
+	 */
 	public Path getDefaultWordListPath(){
 		return _fm.getDefaultWordListPath();
 	}
 	/**
-	 * Stats
+	 * Gets and sets Statistics
 	 */
 	public void updateStats(HashMap<String, Integer> stats){
 		_fm.updateStatistics(stats, _category);
@@ -114,6 +134,10 @@ public class VoxspellModel {
 	public HashMap<String, Integer> getStats(String category){
 		return _fm.getStatisticsWords(category);
 	}
+	/**
+	 * Info on whether user should recieve Video Reward or not
+	 *
+	 */
 	public void setReward(boolean giveReward){
 		_reward = giveReward;
 	}
@@ -121,7 +145,7 @@ public class VoxspellModel {
 		return _reward;
 	}
 	/**
-	 * Failed
+	 * Removing words from failed list
 	 */
 	public ArrayList<String> getFailedWordList(){
 		return _fm.getFailedList();

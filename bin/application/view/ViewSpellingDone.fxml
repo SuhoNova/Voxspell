@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerSpellingDone">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@LightTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerSpellingDone">
    <children>
       <SplitPane dividerPositions="0.37597911227154046" layoutX="255.0" layoutY="132.0" orientation="VERTICAL" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -14,7 +14,7 @@
                <children>
                   <SplitPane dividerPositions="0.2872340425531915" layoutX="351.0" orientation="VERTICAL" prefHeight="217.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background">
                            <children>
                               <Label layoutX="24.0" layoutY="15.0" text="Voxspell">
                                  <font>
@@ -23,7 +23,7 @@
                               </Label>
                            </children>
                         </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background">
                            <children>
                               <Label layoutX="292.0" layoutY="51.0" text="Well Done!">
                                  <font>
@@ -36,7 +36,7 @@
                   </SplitPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="1022.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="377.0" prefWidth="1022.0" styleClass="background">
                <children>
                   <Label fx:id="_accuracyLabel" layoutX="337.0" layoutY="31.0" prefHeight="55.0" prefWidth="320.0" text="Score: 100%">
                      <font>

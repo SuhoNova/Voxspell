@@ -4,14 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
-
 import application.VoxspellMain;
 import application.VoxspellModel;
 import application.model.TextToSpeech;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -24,6 +22,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
+/**
+ * This class handles the spelling logic
+ * 
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 
 public class ControllerSpelling {
 	@FXML private Button _quit;
@@ -64,17 +69,14 @@ public class ControllerSpelling {
 		System.out.println("User ans: "+ userAns);
 		_userReply.clear();
 		
-		
-		// IF CORRECT ELSE INCORRECT
 		/**
 		 * Check if second attempt,
-		 * Update what word up to ie how many correct and how many done
-		 * Go to next word
-		 * use tts to speak it
+		 * Update what word user iss up to ie how many correct and how many done
+		 * Update user data everytime
+		 * use text to speech to speak it
 		 */
 		if(userAns.equalsIgnoreCase(_currentWord)){
 			updateStats(true);
-			_stats.put(_currentWord, 1);
 			_mastered.add(_currentWord.toLowerCase());
 			_secondAttempt = false;
 			_correctSession++;
@@ -89,7 +91,6 @@ public class ControllerSpelling {
 		} else {
 			if(_secondAttempt){
 				updateStats(false);
-				_stats.put(_currentWord, 0);
 				_failed.add(_currentWord.toLowerCase());
 				_secondAttempt = false;
 
@@ -106,9 +107,10 @@ public class ControllerSpelling {
 			}
 		}
 		
-		
+		// If the words are all tested
 		if(_totalDoneSession == _wordList.size()){
 			boolean newBest = false;
+			// Check to see if it is user's personal best and alerts the user if that is the case
 			if(_correctSession > _personalBest){
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("New Personal Best!");
@@ -118,10 +120,6 @@ public class ControllerSpelling {
 				alert.showAndWait();
 				newBest=true;
 			}
-			//Then go to spelling done scene
-			// check if video reward and next level is in order
-			// offer repeat level and back to menu regardless
-			// just go back for now
 			
 			// update accuracy, statistics, failed
 			if(!_failed.isEmpty()){
@@ -137,9 +135,9 @@ public class ControllerSpelling {
 				_model.setTotalAccuracy(_category, _totalDoneSession+_model.getTotalWordsTested(_category),
 						_correctSession+_model.getTotalCorrect(_category), _personalBest);
 			}
-			//stats
+			// updates the stats to the file
 			_model.updateStats(_stats);
-			//reward status?
+			//reward status
 			if(_correctSession>=_totalDoneSession-1){
 				_model.setReward(true);
 			} else {
@@ -169,6 +167,9 @@ public class ControllerSpelling {
 			stage.show();
 		}
 	}
+	/**
+	 * When spelling is done, it moves onto spelling finished scene
+	 */
 	public void spellingDone(){
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(VoxspellMain.class.getResource("view/ViewSpellingDone.fxml"));
@@ -188,6 +189,10 @@ public class ControllerSpelling {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * The spelling game starts from here
+	 * It also has a shortcut, where enter means submitting word
+	 */
 	public void startQuiz(){
 		disableButtons();
 		Scene scene = _main.getScene();
@@ -200,12 +205,16 @@ public class ControllerSpelling {
 			}
 		});
 		this.checkApostrophe("Please spell the word ...... " + _currentWord);
-		//
+		
+		// Testing purposes
 		updateText();
 		System.out.println("------------------------------");
 		System.out.println("Current word: " + _currentWord);
 		//
 	}
+	/**
+	 * Disables the button when festival is being used 
+	 */
 	public void disableButtons(){
 		_enter.setDisable(true);
 		_listenAgain.setDisable(true);
@@ -216,6 +225,10 @@ public class ControllerSpelling {
 			}
 		});
 	}
+	/**
+	 * Method to reenable the buttons
+	 * Also have a shortcut, where enter means submitting word
+	 */
 	public void enableButtons(){
 		_enter.setDisable(false);
 		_listenAgain.setDisable(false);
@@ -229,6 +242,10 @@ public class ControllerSpelling {
 			}
 		});
 	}
+	/**
+	 * Stores if a word is mastered or failed
+	 * 
+	 */
 	private void updateStats(boolean isCorrect){
 		if(isCorrect){
 			_stats.put(_currentWord, 1);
@@ -236,6 +253,10 @@ public class ControllerSpelling {
 			_stats.put(_currentWord, 0);
 		}
 	}
+	/**
+	 * Update current session accuracy 
+	 * and what word the user is up to
+	 */
 	private void updateText(){
 		_accuracy.setText("Score: " + getSessionAccuracy() + "%");
 		_labelCorrect.setText(_correctSession + " words correct!");
@@ -248,12 +269,22 @@ public class ControllerSpelling {
 		double value = (((double)_correctSession)/_totalDoneSession)*100;
 		return (int)value;
 	}
+	/**
+	 * Checks if the word has an apostrophe
+	 * Returns true if exist and false if otherwise
+	 * @param word
+	 * @return
+	 */
 	public boolean doesApostropheExist(String word){
 		if(word.contains("'")){
 			return true;
 		}
 		return false;
 	}
+	/**
+	 * Option to listen again.
+	 * If second attempt, then the user also gets to hear the spelling of the word
+	 */
 	@FXML
 	public void listenAgain(){
 		disableButtons();
@@ -270,8 +301,11 @@ public class ControllerSpelling {
 			}
 			_tts.Speak(_currentWord + " .... " + temp);
 		}
-		// when tts worker is done it calls the enable buttons method
 	}
+	/**
+	 * Add that the apostrophe exist, so the user is alerted when spelling
+	 * @param word
+	 */
 	public void checkApostrophe(String word){
 		if(_currentWord.contains("'")){
 			_tts.Speak(word + " ... with an apostrophe.");

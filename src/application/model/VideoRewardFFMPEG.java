@@ -1,12 +1,14 @@
 package application.model;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import javax.swing.SwingWorker;
+
+/**
+ * This class deals with processing of video using ffmpeg
+ * Currently only have the option to flip the video using the an option called vflip
+ * 
+ */
 
 import application.view.ControllerVideoReward;
 

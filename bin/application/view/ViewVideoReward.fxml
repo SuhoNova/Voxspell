@@ -13,10 +13,11 @@
    <bottom>
       <HBox prefHeight="29.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="_slow" mnemonicParsing="false" onAction="#slow" prefHeight="25.0" prefWidth="121.0" text="Slow" />
-            <Button fx:id="_play" mnemonicParsing="false" onAction="#play" prefHeight="25.0" prefWidth="160.0" text="Play/Pause" />
-            <Button fx:id="_fast" mnemonicParsing="false" onAction="#fast" prefHeight="25.0" prefWidth="177.0" text="Fast" />
-            <Button fx:id="_back" mnemonicParsing="false" onAction="#backToPreviousScene" prefHeight="25.0" prefWidth="142.0" text="Back to menu" />
+            <Button fx:id="_ffmpegVideo" mnemonicParsing="false" onAction="#ffmpegVideoReward" prefHeight="30.0" prefWidth="200.0" text="Flip" />
+            <Button fx:id="_slow" mnemonicParsing="false" onAction="#slow" prefHeight="30.0" prefWidth="200.0" text="Slow" />
+            <Button fx:id="_play" mnemonicParsing="false" onAction="#play" prefHeight="30.0" prefWidth="200.0" text="Play" />
+            <Button fx:id="_fast" mnemonicParsing="false" onAction="#fast" prefHeight="30.0" prefWidth="200.0" text="Fast" />
+            <Button fx:id="_back" mnemonicParsing="false" onAction="#backToPreviousScene" prefHeight="30.0" prefWidth="220.0" text="Back to menu" />
          </children>
       </HBox>
    </bottom>

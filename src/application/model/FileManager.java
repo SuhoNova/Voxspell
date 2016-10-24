@@ -3,13 +3,10 @@ package application.model;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Writer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -20,8 +17,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 /**
- * Firstly, files are checked if exist when initialized.
- * @author alex
+ * This class deals with checking, accessing and writing files
+ * 
+ * @author syu680, Alex (Suho) Yu
  *
  */
 
@@ -29,7 +27,6 @@ public class FileManager {
 	private Path _path;
 	private Path _defaultWordListPath;
 	private Path _pathWordList;
-	//private String _pathVideo;
 	private Path _pathAccuracy;
 	private Path _pathStatistics;
 	private Path _pathFailed;
@@ -38,22 +35,30 @@ public class FileManager {
 	private ArrayList<String> _voiceList;
 
 	public FileManager(){
+		// sets paths for failed, accuracy, and stats files
 		this.setPath();
-		// check files at startup and make it if doesn't exist
+		// checking if these files exist
 		checkFile(_pathStatistics);
 		checkFailed();
+		// initializes word list and using the paths, it finds the word list and gets needed data from it
 		_wordList = new WordList(_path);
 		_wordList.setWordListAndCategory();
 		checkAccuracy();
-		
+		// adds voice list, currently only have two: american and new zealander
 		addVoiceList();
-		
-		// set Paths
-		//this.setWordListPath(_wordList.getWordListPath());
-		// check files at startup and make it if doesn't exist
 	}
 	/**
-	 * Accuracy
+	 * Updates Accuracy file
+	 * accuracy file is organized by 
+	 * category and stores data about it
+	 * The three data it stores are:
+	 * 		total words tested from this category
+	 * 		total words correct from this category
+	 * 		and personal best score from one session
+	 * The format looks like this:
+	 * 
+	 * 		category_totalWordsTested_totalCorrect_personalbest
+	 * 		...
 	 */
 	public void updateAccuracy(String category, int totalTested, int totalCorrect, int personalBest){
 		boolean written = false;
@@ -64,7 +69,6 @@ public class FileManager {
 			while(input.hasNextLine()){
 				String line = input.nextLine().toLowerCase().trim();
 				String[] separated = line.split("_");
-				//System.out.println(line + " " + category);
 				if(separated[0].equalsIgnoreCase(category)){
 					writer.write(category+"_"+totalTested+"_"+totalCorrect+"_"+personalBest + System.getProperty("line.separator"));
 					written = true;
@@ -73,7 +77,7 @@ public class FileManager {
 				}
 			}
 			if(!written){
-				writer.write(category+"_"+totalTested+"_"+totalCorrect+"_"+personalBest);// + System.getProperty("line.separator"));
+				writer.write(category+"_"+totalTested+"_"+totalCorrect+"_"+personalBest);
 			}
 			writer.close();
 			tempFile.renameTo(new File(_pathAccuracy.toString()));
@@ -82,9 +86,7 @@ public class FileManager {
 		}
 	}
 	/**
-	 * Get data from accuracy file ie total words tested, total words correct
-	 * @param category
-	 * @return
+	 * The 3 info of a category is divided into these 3 getter methods
 	 */
 	public int getCategoryTotalTested(String category){
 		return getFromAccuracyFile(category, 1);
@@ -95,6 +97,9 @@ public class FileManager {
 	public int getPersonalBest(String category){
 		return getFromAccuracyFile(category, 3);
 	}
+	/**
+	 * The 3 getters from above uses this method to get data from accuracy file 
+	 */
 	public int getFromAccuracyFile(String category, int pos){
 		String[] separated = null;
 		try { 
@@ -113,9 +118,9 @@ public class FileManager {
 		return -1;
 	}
 	/**
-	 * Checking files
+	 * if a word exist in the file of that path, it returns true, otherwise false
+	 * 
 	 */
-	// if word exists in file return true, if not return false
 	private boolean isInFile(String word, String path) {
 		try {
 			ArrayList<String> wordsList = new ArrayList<String>();
@@ -141,6 +146,10 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Checks failed word list file, it is created if it doesn't exist
+	 * 
+	 */
 	private void checkFailed(){
 		try {
 			File f = new File(_pathFailed.toString());
@@ -154,7 +163,9 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
-	// Accuracy Format: categoryName_totalTested_correct
+	/**
+	 * Checks if accuracy file exist, if it doesn't it is created
+	 */
 	private void checkAccuracy(){
 		try {
 			File f = new File(_pathAccuracy.toString());
@@ -172,9 +183,10 @@ public class FileManager {
 		}
 	}
 	/**
-	 * Get and set Statistics of user
+	 * Get and set Statistics
+	 * For a specific category, it gets stats: words and an integer (which symbolizes 0=fail,1=mastered)
+	 * 
 	 */
-	// For a specific category, it gets stats: words and an integer(0=fail,1=mastered)
 	public HashMap<String, Integer> getStatisticsWords(String category){
 		checkFile(_pathStatistics);
 		boolean isStats = false;
@@ -205,7 +217,7 @@ public class FileManager {
 		return _stats;
 	}
 	/**
-	 * 
+	 * Updates the statistics to the file
 	 * @param stats
 	 * @param category
 	 */
@@ -217,13 +229,16 @@ public class FileManager {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
 			Scanner input = new Scanner(_pathStatistics);
+			// Goes through all the line in current stats file
 			while(input.hasNextLine()){
 				String line = input.nextLine().trim();
-				// next category found while ignoring the requested category words
+				// is the stats category we want
 				if(isStats){
+					// if it is a line that has category info
 					if(line.contains("%")){
 						isStats = false;
 						ArrayList<String> temp = new ArrayList<String>();
+						// go through all stats and add it in before next category is written
 						for(String word : stats.keySet()){
 							String wordLine = word + "_" + stats.get(word);
 							writer.write(wordLine + System.getProperty("line.separator"));
@@ -234,6 +249,7 @@ public class FileManager {
 						}
 						writer.write(line + System.getProperty("line.separator"));
 					}else{
+						// update the previous stats with current one
 						String[] separated = line.split("_");
 						if(!stats.containsKey(separated[0])){
 							writer.write(line + System.getProperty("line.separator"));
@@ -242,6 +258,7 @@ public class FileManager {
 							stats.remove(separated[0]);
 						}
 					}
+				// not the stats category we want
 				}else {
 					if(line.contains("%") && line.equalsIgnoreCase("%"+category)){
 						writer.write(line + System.getProperty("line.separator"));
@@ -252,6 +269,7 @@ public class FileManager {
 					}
 				}
 			}
+			// if nothing was written, stats didnt have data about this category, so make a new one
 			if(!written){
 				writer.write("%"+category + System.getProperty("line.separator"));
 				for(String word : stats.keySet()){
@@ -272,7 +290,7 @@ public class FileManager {
 		}
 	}
 	/*
-	 *Add failed words to failed file 
+	 * Add failed words to failed file 
 	 */
 	public void addFailedWords(ArrayList<String> failed){
 		checkFailed();
@@ -289,6 +307,10 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Remove words from failed list
+	 * @param mastered
+	 */
 	public void removeWordFailed(ArrayList<String> mastered){
 		File tempFile = new File("temp.txt");
 		try {
@@ -307,7 +329,7 @@ public class FileManager {
 		}
 	}
 	/**
-	 * Clearing data
+	 * Clear data: accuracy, failed, and stats
 	 */
 	public void clearData(){
 		clearFile(_pathStatistics);
@@ -346,6 +368,11 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Check if the user input word list is a usable format 
+	 * @param path
+	 * @return
+	 */
 	public boolean checkCorrectWordListFile(Path path){
 		Scanner input;
 		try {
@@ -363,7 +390,6 @@ public class FileManager {
 		}
 		return false;
 	}
-	// SET PATHS ***MAY GET ERRORS IF SPACES IN PATH
 	/**
 	 * Getting and setting paths of files
 	 */
@@ -378,7 +404,7 @@ public class FileManager {
 		return _defaultWordListPath;
 	}
 	/**
-	 * Check if valid
+	 * setting and getting default path
 	 */
 	public void setWordListPath(Path path){
 		_pathWordList = path;
@@ -387,6 +413,7 @@ public class FileManager {
 	public Path getWordListPath(){
 		return _wordList.getWordListPath();
 	}
+	// getting failed list
 	public ArrayList<String> getFailedList(){
 		ArrayList<String> failedList = new ArrayList<String>();
 		try {
@@ -402,6 +429,7 @@ public class FileManager {
 		}
 		return failedList;
 	}
+	// adding voice list
 	private void addVoiceList(){
 		_voiceList = new ArrayList<String>();
 		_voiceList.add("american");

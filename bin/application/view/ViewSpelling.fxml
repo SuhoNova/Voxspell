@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerSpelling">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@LightTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerSpelling">
    <children>
       <SplitPane dividerPositions="0.34464751958224543" layoutX="106.0" layoutY="126.0" orientation="VERTICAL" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -14,7 +14,7 @@
                <children>
                   <SplitPane dividerPositions="0.3125" layoutX="274.0" layoutY="5.0" orientation="VERTICAL" prefHeight="210.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background">
                            <children>
                               <Label layoutX="18.0" layoutY="17.0" text="Voxspell">
                                  <font>
@@ -33,7 +33,7 @@
                               </Label>
                            </children>
                         </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background">
                            <children>
                               <Label layoutX="89.0" layoutY="51.0" text="Spell the word ...">
                                  <font>
@@ -51,7 +51,7 @@
                   </SplitPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="504.0" prefWidth="1022.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="504.0" prefWidth="1022.0" styleClass="background">
                <children>
                   <TextField fx:id="_userReply" layoutX="86.0" layoutY="114.0" prefHeight="121.0" prefWidth="617.0" promptText="Enter Here...">
                      <font>

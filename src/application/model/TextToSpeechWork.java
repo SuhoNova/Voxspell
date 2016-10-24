@@ -1,10 +1,14 @@
 package application.model;
 
-
-
 import java.io.OutputStream;
-
 import javax.swing.SwingWorker;
+
+/**
+ * This class deals with using festival on linux
+ * 
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 
 public class TextToSpeechWork extends SwingWorker<Void,Void> {
 	private String _word;
@@ -16,22 +20,13 @@ public class TextToSpeechWork extends SwingWorker<Void,Void> {
 		_voice = voice;
 		_tts = tts;
 	}
-	/**
-	 * Sets word, voice, and rehear option
-	 * @param word
-	 * @param voice
-	 * @param rehear
-	 */
 	public void setWordAndVoice(String sentence, String voice){
 		_word = sentence;
 		_voice = voice;
 	}
 	
 	/**
-	 * If rehear is true, thread does not sleep at all
-	 * If it is correct or incorrect or incorrect, try once more thread does not sleep
-	 * If it is Please spell the word it sleeps only 1000ms
-	 * if it is anything else it sleeps 2200ms 
+	 * Use festival to process text to speech
 	 */
 	@Override
 	protected Void doInBackground() throws Exception {
@@ -49,6 +44,9 @@ public class TextToSpeechWork extends SwingWorker<Void,Void> {
 		process.waitFor();
 		return null;
 	}
+	/**
+	 * After festival finishes speaking, it enables the buttons on gui
+	 */
 	@Override
 	protected void done(){
 		_tts.enableSpellingButtons();

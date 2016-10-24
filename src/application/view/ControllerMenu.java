@@ -1,32 +1,29 @@
 package application.view;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Optional;
-
 import application.VoxspellMain;
 import application.VoxspellModel;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Callback;
+
+/**
+ * This class is a controller class for Menu
+ * It shows what method is executed when pressed on the menu gui
+ * Currently it moves the scene to: spelling, score, settings, and exit
+ * It also handles background music
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 
 public class ControllerMenu {
 	@FXML private Button _btnStart;
@@ -45,7 +42,9 @@ public class ControllerMenu {
 		_model = model;
 		_main = main;
 	}
-
+	/**
+	 * Makes scene for spelling
+	 */
 	@FXML
 	public void startApp(){
 		if(_model.getCategory().equals("review") && _model.getTestWordList("review").isEmpty()){
@@ -78,6 +77,9 @@ public class ControllerMenu {
 			}
 		}
 	}
+	/**
+	 * Scene for keeping score
+	 */
 	@FXML
 	private void score(){
 		FXMLLoader loader = new FXMLLoader();
@@ -98,6 +100,9 @@ public class ControllerMenu {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Scene for settings gui
+	 */
 	@FXML
 	private void settings(){
 		FXMLLoader loader = new FXMLLoader();
@@ -119,6 +124,9 @@ public class ControllerMenu {
 		}
 		loader.setLocation(VoxspellMain.class.getResource("view/ViewSettings.fxml"));
 	}
+	/**
+	 * Exiting app
+	 */
 	@FXML
 	private void exitApp(){
 		try {
@@ -128,6 +136,9 @@ public class ControllerMenu {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Background Music, handles volume, and whether it should play or pause
+	 */
 	@FXML
 	private void backgroundMusic(){
 		if(_btnBGM.isSelected()){

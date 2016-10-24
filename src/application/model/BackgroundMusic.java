@@ -1,17 +1,22 @@
 package application.model;
 
-import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import javafx.fxml.Initializable;
-import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
-
+/**
+ * This class deals with background music.
+ * The open source music is EARLY ROOTS OF JAZZ: “WASHBOARD WIGGLES”
+ * from http://humanmusicintelligence.com/early-roots-of-jazz-washboard-wiggles/
+ * The music will go on indefinitely as it will start again when finished
+ * 
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 public class BackgroundMusic implements Initializable{
 	private Path _path;
 	private MediaPlayer _mediaPlayer;
@@ -29,14 +34,12 @@ public class BackgroundMusic implements Initializable{
 	}
 	
 	public void setPath(String path){
-		//tests if correct file
 		_path = Paths.get("test.mp3");
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	}
-	
 	public void pause(){
 		_mediaPlayer.pause();
 	}
@@ -44,7 +47,7 @@ public class BackgroundMusic implements Initializable{
 		_mediaPlayer.play();
 	}
 	public void setVolume(double volume){
-		//between 0.0 to 1.0
+		//between 0.0 (min) to 1.0 (max)
 		_mediaPlayer.setVolume(volume);
 	}
 	

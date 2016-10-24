@@ -10,7 +10,18 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * VoxspellMain is where the program starts.
+ * The stage for the gui is made and the scenes will be added on to the stage.
+ * The first scene that is made is the menu scene.
+ * And the connected controller is also loaded.
+ * The main model, VoxspellModel is also initialized so that other classes can use it.
+ *  
+ * @author syu680, Alex (Suho) Yu
+ *
+ */
 public class VoxspellMain extends Application {
+	
 	private Stage _primaryStage;
 	private VoxspellModel _model;
 	private Scene _scene;
@@ -22,7 +33,6 @@ public class VoxspellMain extends Application {
         _model = new VoxspellModel();
         
         initRootLayout();
-
     }
 
     /**
@@ -41,7 +51,7 @@ public class VoxspellMain extends Application {
 				}
 			});
 	        AnchorPane menu = (AnchorPane) loader.load();
-			// show the scene contaning the layout
+			// show the scene containing the layout
 	        _scene = new Scene(menu);
 	        
 	        _primaryStage.setScene(_scene);
@@ -51,10 +61,7 @@ public class VoxspellMain extends Application {
 			e.printStackTrace();
 		}
     }
-    /**
-     * Returns the main stage.
-     * @return
-     */
+
     public Stage getPrimaryStage() {
         return _primaryStage;
     }
