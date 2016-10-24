@@ -34,7 +34,7 @@ public class VoxspellModel {
 		_bm = new BackgroundMusic();
 
 		_categoryList = _fm.getCategoryList();
-		_category = _categoryList.get(0);
+		_category = _categoryList.get(1);
 		
 		_voice = "american";
 		_voiceList = _fm.getVoiceList();
@@ -52,6 +52,10 @@ public class VoxspellModel {
 	}
 	public void setCategory(String category){
 		_category = category.toLowerCase();
+		this.setWordListAndCategory();
+	}
+	public void setWordListAndCategory(){
+		_fm.setWordListAndCategory();
 	}
 	public void setVoice(String voice){
 		_voice = voice;
@@ -94,6 +98,12 @@ public class VoxspellModel {
 	}
 	public ArrayList<String> getVoiceList(){
 		return _fm.getVoiceList();
+	}
+	public boolean checkCorrectWordListFile(Path p){
+		return _fm.checkCorrectWordListFile(p);
+	}
+	public Path getDefaultWordListPath(){
+		return _fm.getDefaultWordListPath();
 	}
 	/**
 	 * Stats

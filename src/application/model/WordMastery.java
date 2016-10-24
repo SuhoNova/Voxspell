@@ -1,20 +1,26 @@
 package application.model;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class WordMastery {
-	private String _word;
-	private String _mastery;
-	public WordMastery(String word, int mastery){
-		_word = word;
-		if(mastery == 1){
-			_mastery = "mastered";
-		} else {
-			_mastery = "failed";
-		}
+	private SimpleStringProperty words;
+	private SimpleStringProperty mastery;
+	
+	public WordMastery(String w, String m){
+		words = new SimpleStringProperty(w);
+		mastery = new SimpleStringProperty(m);
+	}
+	
+	public String getWords(){
+		return words.get();
+	}
+	public void setWords(String w){
+		words.set(w);
 	}
 	public String getMastery(){
-		return _mastery;
+		return mastery.get();
 	}
-	public String getWord(){
-		return _word;
+	public void setMastery(String m){
+		mastery.set(m);
 	}
 }

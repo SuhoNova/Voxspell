@@ -11,20 +11,25 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerSettings">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@LightTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerSettings">
    <children>
       <SplitPane dividerPositions="0.22715404699738903" layoutX="96.0" layoutY="27.0" orientation="VERTICAL" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background">
                <children>
                   <Label layoutX="305.0" layoutY="46.0" text="Settings">
                      <font>
                         <Font size="96.0" />
                      </font>
                   </Label>
+                  <Button fx:id="_default" layoutX="838.0" layoutY="127.0" mnemonicParsing="false" onAction="#defaultWordList" text="Default WordList">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="469.0" prefWidth="597.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="469.0" prefWidth="597.0" styleClass="background">
                <children>
                   <Label layoutX="144.0" layoutY="83.0" prefHeight="53.0" prefWidth="199.0" text="Voice:">
                      <font>
@@ -47,12 +52,15 @@
                      </font>
                   </Button>
                   <ChoiceBox fx:id="_voiceChoice" layoutX="439.0" layoutY="96.0" prefHeight="37.0" prefWidth="388.0" />
-                  <Label fx:id="_wordList" layoutX="433.0" layoutY="214.0" prefHeight="43.0" prefWidth="234.0" text="Word List">
+                  <Label fx:id="_wordList" layoutX="433.0" layoutY="214.0" prefHeight="43.0" prefWidth="394.0" text="Word List">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Button fx:id="_fileFinder" layoutX="686.0" layoutY="223.0" mnemonicParsing="false" onAction="#changeWordList" text="Upload New..." />
+                  <Button fx:id="_fileFinder" layoutX="430.0" layoutY="256.0" mnemonicParsing="false" onAction="#changeWordList" prefHeight="37.0" prefWidth="159.0" text="Upload New...">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Button>
                   <ChoiceBox fx:id="_category" layoutX="443.0" layoutY="340.0" prefHeight="37.0" prefWidth="388.0" />
                </children></AnchorPane>
         </items>

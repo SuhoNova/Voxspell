@@ -15,11 +15,13 @@ public class WordList {
 	private HashMap<String, ArrayList<String>> _wordList;
 	private final int WORDS = 10;
 	private Path _pathWordList;
+	private Path _pathReviewList;
 	
 	public WordList(Path path){
 		_categoryList = new ArrayList<String>();
 		_wordList = new HashMap<String, ArrayList<String>>();
-		_pathWordList = Paths.get(path + "/src/application/assets/NZCER-spelling-lists.txt");
+		_pathWordList = Paths.get(path + "/assets/NZCER-spelling-lists.txt");
+		_pathReviewList = Paths.get(path + "/assets/.failed");
 	}
 	
 	public ArrayList<String> getTestWordList(String category){
@@ -46,6 +48,24 @@ public class WordList {
 		_wordList = new HashMap<String, ArrayList<String>>();
 		String category = null;
 		try {
+			Scanner input = new Scanner(new File(_pathReviewList.toString()));
+			while (input.hasNext()) {
+			    String word = input.nextLine();
+			    if(word.contains("%")){
+			    	word = (word.substring(1)).toLowerCase().trim();
+			    	_categoryList.add(word);
+			    	category = word;
+			    	_wordList.put(category,new ArrayList<String>());
+			    } else {
+			    	ArrayList<String> temp = _wordList.get(category);
+			    	temp.add(word);
+			    }
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		// REVIEW
+		try {
 			Scanner input = new Scanner(new File(_pathWordList.toString()));
 			while (input.hasNext()) {
 			    String word = input.nextLine();
@@ -63,6 +83,7 @@ public class WordList {
 			e.printStackTrace();
 		}
 	}
+
 	public ArrayList<String> getWordList(String category){
 		return _wordList.get(category);
 	}

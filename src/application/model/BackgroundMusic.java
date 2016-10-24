@@ -18,7 +18,7 @@ public class BackgroundMusic implements Initializable{
 	private Media _media;
 	
 	public BackgroundMusic(){
-		_path = Paths.get(System.getProperty("user.dir") + "/src/application/assets/openSource.mp3");
+		_path = Paths.get(System.getProperty("user.dir") + "/assets/openSource.mp3");
 		_media = new Media(_path.toFile().toURI().toString());
 		_mediaPlayer = new MediaPlayer(_media);
 		_mediaPlayer.setAutoPlay(false);

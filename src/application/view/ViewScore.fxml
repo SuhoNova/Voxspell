@@ -6,40 +6,51 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerScore">
+<AnchorPane prefHeight="768.0" prefWidth="1024.0" stylesheets="@LightTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.view.ControllerScore">
    <children>
       <SplitPane dividerPositions="0.2297650130548303" layoutX="425.0" layoutY="130.0" orientation="VERTICAL" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background">
                <children>
-                  <Label layoutX="357.0" layoutY="34.0" text="Score">
+                  <Label layoutX="176.0" layoutY="23.0" text="Score">
                      <font>
                         <Font size="96.0" />
                      </font>
                   </Label>
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <Label layoutX="201.0" layoutY="76.0" text="Category:">
+                  <Label layoutX="554.0" layoutY="52.0" text="My Score:">
                      <font>
-                        <Font size="32.0" />
+                        <Font size="47.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="_categoryChoice" layoutX="436.0" layoutY="78.0" prefHeight="39.0" prefWidth="376.0" />
-                  <Label layoutX="357.0" layoutY="190.0" text="My Score">
-                     <font>
-                        <Font size="60.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="_score" layoutX="441.0" layoutY="310.0" prefHeight="75.0" prefWidth="208.0" text="100%">
+                  <Label fx:id="_score" layoutX="790.0" layoutY="42.0" prefHeight="75.0" prefWidth="208.0" text="___%">
                      <font>
                         <Font size="64.0" />
                      </font>
                   </Label>
-                  <Button fx:id="_back" layoutX="441.0" layoutY="461.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="55.0" prefWidth="208.0" text="Back">
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background" stylesheets="@LightTheme.css">
+               <children>
+                  <Label layoutX="186.0" layoutY="49.0" text="Category:">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="_categoryChoice" layoutX="373.0" layoutY="51.0" prefHeight="39.0" prefWidth="473.0" />
+                  <Button fx:id="_back" layoutX="413.0" layoutY="484.0" mnemonicParsing="false" onAction="#backToMenu" prefHeight="55.0" prefWidth="208.0" text="Back">
                      <font>
                         <Font size="29.0" />
+                     </font>
+                  </Button>
+                  <TableView fx:id="_table" layoutX="162.0" layoutY="127.0" prefHeight="323.0" prefWidth="717.0">
+                    <columns>
+                      <TableColumn fx:id="_words" prefWidth="387.0" text="Words" />
+                      <TableColumn fx:id="_mastery" prefWidth="329.0" text="Mastery" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="_clearStats" layoutX="30.0" layoutY="488.0" mnemonicParsing="false" onAction="#clearStatistics" prefHeight="39.0" prefWidth="138.0" text="Clear Stats">
+                     <font>
+                        <Font size="17.0" />
                      </font>
                   </Button>
                </children>

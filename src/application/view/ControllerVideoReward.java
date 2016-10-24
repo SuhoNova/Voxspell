@@ -2,11 +2,14 @@ package application.view;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.server.SocketSecurityException;
 import java.util.ResourceBundle;
 
 import application.VoxspellMain;
 import application.VoxspellModel;
+import application.model.VideoRewardFFMPEG;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
@@ -16,26 +19,33 @@ import javafx.scene.control.Button;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.stage.Stage;
 
 public class ControllerVideoReward implements Initializable{
 	@FXML private  MediaView _mediaView;
 	private MediaPlayer _mediaPlayer;
 	private Media _media;
-	private String source = "big_buck_bunny_1_minute.mp4";
+	private String _source;
 	
 	private VoxspellMain _main;
 	private VoxspellModel _model;
 	
 	@FXML private Button _back;
 	@FXML private Button _play;
-	@FXML private Button _pause;
+	@FXML private Button _ffmpegVideo;
 	@FXML private Button _fast;
 	@FXML private Button _slow;
+	
+	private Path _path;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		_media = new Media(this.getClass().getResource(source).toExternalForm());
+		_ffmpegVideo.setDisable(true);
+		//_media = new Media(this.getClass().getResource(source).toExternalForm());
+		_path = Paths.get(System.getProperty("user.dir") + "/assets/big_buck_bunny_1_minute.mp4");
+		_source = "file:///" + _path.toString();
+		_media = new Media(_source);
 		_mediaPlayer = new MediaPlayer(_media);
 		_mediaView.setMediaPlayer(_mediaPlayer);
 		_mediaPlayer.setAutoPlay(true);
@@ -43,6 +53,7 @@ public class ControllerVideoReward implements Initializable{
 		DoubleProperty height = _mediaView.fitHeightProperty();
 		width.bind(Bindings.selectDouble(_mediaView.sceneProperty(), "width"));
 		height.bind(Bindings.selectDouble(_mediaView.sceneProperty(), "height"));
+		_play.setText("Pause");
 	}
 	
 	public void backToPreviousScene(){
@@ -53,11 +64,41 @@ public class ControllerVideoReward implements Initializable{
 	    stage.show();
 	}
 	public void play(){
-		_mediaPlayer.play();
+		if(_mediaPlayer.getStatus().equals(Status.PLAYING)){
+			_mediaPlayer.pause();
+			_play.setText("Play");
+		}else{
+			_mediaPlayer.play();
+			_play.setText("Pause");
+		}
 		_mediaPlayer.setRate(1);
 	}
-	public void pause(){
-		_mediaPlayer.pause();
+	public void ffmpegVideoReward(){
+		_play.setDisable(true);
+		_fast.setDisable(true);
+		_slow.setDisable(true);
+		_ffmpegVideo.setDisable(true);
+		_ffmpegVideo.setText("Processing Please wait...");
+		Path p = _path;
+		VideoRewardFFMPEG fVideo = new VideoRewardFFMPEG(this,p);
+		fVideo.execute();
+	}
+	public void playVideo(Path path){
+		_ffmpegVideo.setDisable(true);
+		_source = "file:///" + path.toString();
+		_media = new Media(_source);
+		_mediaPlayer = new MediaPlayer(_media);
+		_mediaView.setMediaPlayer(_mediaPlayer);
+		_mediaPlayer.setAutoPlay(true);
+		DoubleProperty width = _mediaView.fitWidthProperty();
+		DoubleProperty height = _mediaView.fitHeightProperty();
+		width.bind(Bindings.selectDouble(_mediaView.sceneProperty(), "width"));
+		height.bind(Bindings.selectDouble(_mediaView.sceneProperty(), "height"));
+		_play.setDisable(false);
+		_fast.setDisable(false);
+		_slow.setDisable(false);
+		_play.setText("Pause");
+		
 	}
 	public void fast(){
 		_mediaPlayer.setRate(2);
@@ -66,7 +107,6 @@ public class ControllerVideoReward implements Initializable{
 		_mediaPlayer.setRate(0.5);
 	}
 	
-
 	public ControllerVideoReward(VoxspellModel voxspellModel, VoxspellMain voxspellMain){
 		_model = voxspellModel;
 		_main = voxspellMain;

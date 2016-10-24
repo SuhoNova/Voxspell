@@ -27,6 +27,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public class FileManager {
 	private Path _path;
+	private Path _defaultWordListPath;
 	private Path _pathWordList;
 	//private String _pathVideo;
 	private Path _pathAccuracy;
@@ -37,17 +38,19 @@ public class FileManager {
 	private ArrayList<String> _voiceList;
 
 	public FileManager(){
-		addVoiceList();
 		this.setPath();
-		// get word list
-		_wordList = new WordList(_path);
-		_wordList.setWordListAndCategory();
-		// set Paths
-		//this.setWordListPath(_wordList.getWordListPath());
 		// check files at startup and make it if doesn't exist
 		checkFile(_pathStatistics);
 		checkFailed();
+		_wordList = new WordList(_path);
+		_wordList.setWordListAndCategory();
 		checkAccuracy();
+		
+		addVoiceList();
+		
+		// set Paths
+		//this.setWordListPath(_wordList.getWordListPath());
+		// check files at startup and make it if doesn't exist
 	}
 	/**
 	 * Accuracy
@@ -217,24 +220,29 @@ public class FileManager {
 			while(input.hasNextLine()){
 				String line = input.nextLine().trim();
 				// next category found while ignoring the requested category words
-				if(isStats && line.contains("%")){
-					isStats = false;
-					for(String word : stats.keySet()){
-						String wordLine = word + "_" + stats.get(word);
-						writer.write(wordLine + System.getProperty("line.separator"));
-					}
-					written = true;
-				}
 				if(isStats){
-					String[] separated = line.split("_");
-					if(!stats.containsKey(separated[0])){
+					if(line.contains("%")){
+						isStats = false;
+						ArrayList<String> temp = new ArrayList<String>();
+						for(String word : stats.keySet()){
+							String wordLine = word + "_" + stats.get(word);
+							writer.write(wordLine + System.getProperty("line.separator"));
+							temp.add(word);
+						}
+						for(String s : temp){
+							stats.remove(s);
+						}
 						writer.write(line + System.getProperty("line.separator"));
-					} else {
-						writer.write(separated[0] +"_"+stats.get(separated[0]) + System.getProperty("line.separator"));
-						stats.remove(separated[0]);
+					}else{
+						String[] separated = line.split("_");
+						if(!stats.containsKey(separated[0])){
+							writer.write(line + System.getProperty("line.separator"));
+						} else {
+							writer.write(separated[0] +"_"+stats.get(separated[0]) + System.getProperty("line.separator"));
+							stats.remove(separated[0]);
+						}
 					}
-				}
-				if(!isStats){
+				}else {
 					if(line.contains("%") && line.equalsIgnoreCase("%"+category)){
 						writer.write(line + System.getProperty("line.separator"));
 						isStats = true;
@@ -246,6 +254,12 @@ public class FileManager {
 			}
 			if(!written){
 				writer.write("%"+category + System.getProperty("line.separator"));
+				for(String word : stats.keySet()){
+					String wordLine = word + "_" + stats.get(word);
+					writer.write(wordLine + System.getProperty("line.separator"));
+				}
+			}
+			if(!stats.isEmpty()){
 				for(String word : stats.keySet()){
 					String wordLine = word + "_" + stats.get(word);
 					writer.write(wordLine + System.getProperty("line.separator"));
@@ -332,15 +346,36 @@ public class FileManager {
 			e.printStackTrace();
 		}
 	}
+	public boolean checkCorrectWordListFile(Path path){
+		Scanner input;
+		try {
+			input = new Scanner(path);
+			while(input.hasNextLine()){
+				String line = input.nextLine().trim();
+				if(line.startsWith("%")){
+					return true;
+				}
+				return false;
+			}
+		} catch (IOException e) {
+			errorDialog("Error in opening file");
+			e.printStackTrace();
+		}
+		return false;
+	}
 	// SET PATHS ***MAY GET ERRORS IF SPACES IN PATH
 	/**
 	 * Getting and setting paths of files
 	 */
 	private void setPath(){
 		_path = Paths.get(System.getProperty("user.dir"));
-		_pathAccuracy = Paths.get(_path.toString() + "/.accuracy");
-		_pathStatistics = Paths.get(_path.toString() + "/.statistics");
-		_pathFailed = Paths.get(_path.toString() + "/.failed");
+		_defaultWordListPath = Paths.get(_path + "/assets/NZCER-spelling-lists.txt");
+		_pathAccuracy = Paths.get(_path.toString() + "/assets/.accuracy");
+		_pathStatistics = Paths.get(_path.toString() + "/assets/.statistics");
+		_pathFailed = Paths.get(_path.toString() + "/assets/.failed");
+	}
+	public Path getDefaultWordListPath(){
+		return _defaultWordListPath;
 	}
 	/**
 	 * Check if valid
@@ -380,6 +415,9 @@ public class FileManager {
 	}
 	public ArrayList<String> getTestWordList(String category){
 		return _wordList.getTestWordList(category);
+	}
+	public void setWordListAndCategory(){
+		_wordList.setWordListAndCategory();
 	}
 	/**
 	 * Error and warning message template

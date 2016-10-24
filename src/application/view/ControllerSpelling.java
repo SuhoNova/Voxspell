@@ -46,6 +46,7 @@ public class ControllerSpelling {
 	private String _category;
 	private String _currentWord;
 	private boolean _secondAttempt;
+	private boolean _apostropheExist;
 
 	private int _correctOverall;
 	private int _totalDone;
@@ -73,7 +74,8 @@ public class ControllerSpelling {
 		 */
 		if(userAns.equalsIgnoreCase(_currentWord)){
 			updateStats(true);
-			_mastered.add(_currentWord);
+			_stats.put(_currentWord, 1);
+			_mastered.add(_currentWord.toLowerCase());
 			_secondAttempt = false;
 			_correctSession++;
 
@@ -82,12 +84,13 @@ public class ControllerSpelling {
 				_tts.Speak("Correct!");
 			}else{
 				_currentWord = _wordList.get(_totalDoneSession);
-				_tts.Speak("Correct! .... Please spell .... " + _currentWord);
+				this.checkApostrophe("Correct! .... Please spell .... " + _currentWord);
 			}
 		} else {
 			if(_secondAttempt){
 				updateStats(false);
-				_failed.add(_currentWord);
+				_stats.put(_currentWord, 0);
+				_failed.add(_currentWord.toLowerCase());
 				_secondAttempt = false;
 
 				_totalDoneSession++;
@@ -95,10 +98,10 @@ public class ControllerSpelling {
 					_tts.Speak("Incorrrect!");
 				}else{
 					_currentWord = _wordList.get(_totalDoneSession);
-					_tts.Speak("Incorrrect! .... Please spell .... " + _currentWord);
+					this.checkApostrophe("Incorrrect! .... Please spell .... " + _currentWord);
 				}
 			} else {
-				_tts.Speak("Incorrect! .... Please try again .... " + _currentWord);
+				this.checkApostrophe("Incorrect! .... Please try again .... " + _currentWord);
 				_secondAttempt = true;
 			}
 		}
@@ -142,6 +145,7 @@ public class ControllerSpelling {
 			} else {
 				_model.setReward(false);
 			}
+			_model.setWordListAndCategory();
 			spellingDone();
 		}
 
@@ -195,7 +199,7 @@ public class ControllerSpelling {
 				}
 			}
 		});
-		_tts.Speak("Please spell the word ...... " + _currentWord);
+		this.checkApostrophe("Please spell the word ...... " + _currentWord);
 		//
 		updateText();
 		System.out.println("------------------------------");
@@ -244,16 +248,47 @@ public class ControllerSpelling {
 		double value = (((double)_correctSession)/_totalDoneSession)*100;
 		return (int)value;
 	}
+	public boolean doesApostropheExist(String word){
+		if(word.contains("'")){
+			return true;
+		}
+		return false;
+	}
 	@FXML
 	public void listenAgain(){
 		disableButtons();
-		_tts.Speak(_currentWord);
+		if(!_secondAttempt){
+			checkApostrophe(_currentWord);
+		}else{
+			String temp = "";
+			for(int i = 0; i < _currentWord.length(); i++){
+				if(_currentWord.charAt(i) == '\''){
+					temp += "apostrophe ";
+				} else {
+					temp += _currentWord.charAt(i) + " ... ";
+				}
+			}
+			_tts.Speak(_currentWord + " .... " + temp);
+		}
+		// when tts worker is done it calls the enable buttons method
+	}
+	public void checkApostrophe(String word){
+		if(_currentWord.contains("'")){
+			_tts.Speak(word + " ... with an apostrophe.");
+		}else{
+			_tts.Speak(word);
+		}
 	}
 	@FXML
 	private void initialize(){
+		_failed = new ArrayList<String>();
+		_mastered = new ArrayList<String>();
+		_stats = new HashMap<String, Integer>();
+		
 		_category = _model.getCategory();
 		_wordList = _model.getTestWordList(_category);
 		_secondAttempt = false;
+		_apostropheExist = false;
 		
 		_correctSession = 0;
 		_totalDoneSession = 0;
@@ -272,9 +307,6 @@ public class ControllerSpelling {
 		_model = voxspellModel;
 		_main = voxspellMain;
 		_tts = new TextToSpeech(_model.getVoice(), this);
-		_failed = new ArrayList<String>();
-		_mastered = new ArrayList<String>();
-		_stats = new HashMap<String, Integer>();
 	}
 
 }

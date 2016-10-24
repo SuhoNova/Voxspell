@@ -29,6 +29,7 @@ public class ControllerSettings {
 	@FXML private ChoiceBox _category;
 	@FXML private Button _fileFinder;
 	@FXML private Button _back;
+	@FXML private Button _default;
 	@FXML private Label _wordList;
 
 	private VoxspellMain _main;
@@ -71,10 +72,45 @@ public class ControllerSettings {
 	@FXML
 	private void changeWordList(){
 		File file = _fChooser.showOpenDialog((Stage) _back.getScene().getWindow());
-		// check if valid wordList, later on
-		if(file != null){
+		if(file!=null){
+			Path p = Paths.get(file.getPath());
+			if(!checkWordListFile(p)){
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Error in opening word list");
+				alert.setContentText("Make sure it is a txt file with '%' as categories");
+
+				alert.showAndWait();
+			} else{
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Word List");
+				alert.setHeaderText("Warning, statistics will be lost.");
+				alert.setContentText("Are you sure you want to change word list?");
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK){
+					alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Successful");
+					alert.setHeaderText("Successful");
+					alert.setContentText("Word list has been changed");
+
+					alert.showAndWait();
+						// If valid word list file change model to add wordlist and categorys and reset data
+						_model.setWordListPath(p);
+						_pathWordList = _model.getWordListPath();
+						_arrayCategoryList = new ArrayList<String>(_model.getCategoryList());
+						_categoryList = FXCollections.observableArrayList(_arrayCategoryList);
+			
+						_category.setItems(_categoryList);
+						_category.setValue(_model.getCategory());
+						_wordList.setText(_pathWordList.getFileName().toString());
+						_model.clearData();
+				}
+			}
 		}
-		
+	}
+	@FXML
+	private void defaultWordList(){
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Word List");
 		alert.setHeaderText("Warning, statistics will be lost.");
@@ -82,8 +118,7 @@ public class ControllerSettings {
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK){
-			Path p = Paths.get(file.getPath());
-			// If valid word list file change model to add wordlist and categorys and reset data
+			Path p = _model.getDefaultWordListPath();
 			_model.setWordListPath(p);
 			_pathWordList = _model.getWordListPath();
 			_arrayCategoryList = new ArrayList<String>(_model.getCategoryList());
@@ -93,7 +128,25 @@ public class ControllerSettings {
 			_category.setValue(_model.getCategory());
 			_wordList.setText(_pathWordList.getFileName().toString());
 			_model.clearData();
+			
+			alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Successful");
+			alert.setHeaderText("Successful");
+			alert.setContentText("WordList is back to default");
+
+			alert.showAndWait();
 		}
+	}
+	private boolean checkWordListFile(Path path){
+		String fileName = path.getFileName().toString();
+		if(!fileName.endsWith(".txt")){
+			return false;
+		}else{
+			if(_model.checkCorrectWordListFile(path)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@FXML

@@ -1,6 +1,8 @@
 package application.view;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Optional;
 
 import application.VoxspellMain;
 import application.VoxspellModel;
@@ -12,9 +14,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -43,28 +48,35 @@ public class ControllerMenu {
 
 	@FXML
 	public void startApp(){
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(VoxspellMain.class.getResource("view/ViewSpelling.fxml"));
-		loader.setControllerFactory(new Callback<Class<?>, Object>() {
-			@Override
-			public Object call(Class<?> aClass){
-				return new ControllerSpelling(_model, _main);
-			}
-		});
-		try {
-			AnchorPane spelling = (AnchorPane) loader.load();
-			Stage stage = (Stage) _btnStart.getScene().getWindow();
-			Scene scene = new Scene(spelling);
+		if(_model.getCategory().equals("review") && _model.getTestWordList("review").isEmpty()){
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Review Quiz");
+			alert.setHeaderText("There is nothing to review");
+			alert.setContentText("Please change the category");
+
+			alert.showAndWait();
+		} else {
+			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(VoxspellMain.class.getResource("view/ViewSpelling.fxml"));
-			ControllerSpelling vSettingsController = loader.getController();
-			stage.setScene(scene);
-			stage.show();
-			vSettingsController.startQuiz();
-			//vSettingsController.spellingDone();
-		} catch (IOException e) {
-			e.printStackTrace();
+			loader.setControllerFactory(new Callback<Class<?>, Object>() {
+				@Override
+				public Object call(Class<?> aClass){
+					return new ControllerSpelling(_model, _main);
+				}
+			});
+			try {
+				AnchorPane spelling = (AnchorPane) loader.load();
+				Stage stage = (Stage) _btnStart.getScene().getWindow();
+				Scene scene = new Scene(spelling);
+				loader.setLocation(VoxspellMain.class.getResource("view/ViewSpelling.fxml"));
+				ControllerSpelling vSettingsController = loader.getController();
+				stage.setScene(scene);
+				stage.show();
+				vSettingsController.startQuiz();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		
 	}
 	@FXML
 	private void score(){
@@ -85,8 +97,6 @@ public class ControllerMenu {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//loader.setLocation(VoxspellMain.class.getResource("ViewScore.fxml"));
-		//_vScoreController = loader.getController();
 	}
 	@FXML
 	private void settings(){
@@ -117,30 +127,6 @@ public class ControllerMenu {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	@FXML
-	private void statistics(){
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(VoxspellMain.class.getResource("view/ViewStatistics.fxml"));
-		loader.setControllerFactory(new Callback<Class<?>, Object>() {
-			@Override
-			public Object call(Class<?> aClass){
-				return new ControllerStatistics(_model,_main);
-			}
-		});
-		try {
-			AnchorPane statistics = (AnchorPane) loader.load();
-			Stage stage = (Stage) _btnStatistics.getScene().getWindow();
-			Scene scene = new Scene(statistics);
-			stage.setScene(scene);
-			stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	@FXML
-	private void review(){
-		
 	}
 	@FXML
 	private void backgroundMusic(){
