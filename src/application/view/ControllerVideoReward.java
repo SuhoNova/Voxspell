@@ -49,7 +49,7 @@ public class ControllerVideoReward implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		_ffmpegVideo.setDisable(true);
+		//_ffmpegVideo.setDisable(true);
 		_path = Paths.get(System.getProperty("user.dir") + "/assets/big_buck_bunny_1_minute.mp4");
 		_source = "file:///" + _path.toString();
 		_media = new Media(_source);

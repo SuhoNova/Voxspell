@@ -56,6 +56,7 @@ public class VoxspellMain extends Application {
 	        
 	        _primaryStage.setScene(_scene);
 	        _primaryStage.show();
+	        _primaryStage.setResizable(false);
 
 		} catch (IOException e) {
 			e.printStackTrace();
