@@ -45,13 +45,18 @@ public class ControllerVideoReward implements Initializable{
 	@FXML private Button _fast;
 	@FXML private Button _slow;
 	
-	private Path _path;
+	private String _path;
+	private String _strPath;
+	private String _videoPath;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//_ffmpegVideo.setDisable(true);
-		_path = Paths.get(System.getProperty("user.dir") + "/assets/big_buck_bunny_1_minute.mp4");
-		_source = "file:///" + _path.toString();
+		_path = System.getProperty("user.dir"); 
+		_videoPath = _path.toString()+"/assets/big_buck_bunny_1_minute.mp4";
+		_strPath = _videoPath.toString();
+		_strPath = _strPath.replace(" ", "%20");
+		_source = "file:///" +_strPath;
 		_media = new Media(_source);
 		_mediaPlayer = new MediaPlayer(_media);
 		_mediaView.setMediaPlayer(_mediaPlayer);
@@ -92,11 +97,16 @@ public class ControllerVideoReward implements Initializable{
 		_slow.setDisable(true);
 		_ffmpegVideo.setDisable(true);
 		_ffmpegVideo.setText("Processing Please wait...");
-		Path p = _path;
-		VideoRewardFFMPEG fVideo = new VideoRewardFFMPEG(this,p);
+		VideoRewardFFMPEG fVideo = new VideoRewardFFMPEG(this,_path,_videoPath);
 		fVideo.execute();
 	}
+	/**
+	 * After converting video using ffmpeg, this method is called to play the new video
+	 * @param path
+	 */
 	public void playVideo(Path path){
+		_ffmpegVideo.setDisable(false);
+		_ffmpegVideo.setText("Done!");
 		_ffmpegVideo.setDisable(true);
 		_source = "file:///" + path.toString();
 		_media = new Media(_source);
@@ -125,7 +135,7 @@ public class ControllerVideoReward implements Initializable{
 	public void slow(){
 		_mediaPlayer.setRate(0.5);
 	}
-	
+
 	public ControllerVideoReward(VoxspellModel voxspellModel, VoxspellMain voxspellMain){
 		_model = voxspellModel;
 		_main = voxspellMain;

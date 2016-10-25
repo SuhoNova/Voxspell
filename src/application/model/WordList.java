@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class WordList {
 	private ArrayList<String> _categoryList;
 	private HashMap<String, ArrayList<String>> _wordList;
-	private final int WORDS = 10;
+	private final int WORDS = 1;
 	private Path _pathWordList;
 	private Path _pathReviewList;
 	
